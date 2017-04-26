@@ -1,5 +1,3 @@
-require "tracky_dacks/handlers/ga"
-
 module TrackyDacks
   module Handlers
     class Pageview < GA
