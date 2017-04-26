@@ -8,12 +8,22 @@ module TrackyDacks
           document_path: params["path"],
           referrer: params["referrer"],
           campaign_name: params["campaign_name"],
-          campaign_source: params["campaign_source"] || params["referrer"],
+          campaign_source: extract_domain_name(params["campaign_source"]) || extract_domain_name(params["referrer"]),
           campaign_medium: params["campaign_medium"],
           campaign_keyword: params["campaign_keyword"],
           campaign_content: params["campaign_content"],
           campaign_id: params["campaign_id"]
         )
+      end
+
+      private
+
+      def extract_domain_name(url)
+        begin
+          URI.parse(url).host&.gsub("www.", "")
+        rescue URI::InvalidURIError
+          nil
+        end
       end
     end
   end
