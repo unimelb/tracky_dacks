@@ -28,8 +28,8 @@ module TrackyDacks
       plugin_opts[:handlers] = handlers.each_with_object({}) { |(key, handler_class), result|
         result[key] = handler_class.new(
           Staccato.tracker(
-            handler_options.delete(:tracking_id),
-            handler_options.delete(:client_id),
+            handler_options[:tracking_id],
+            handler_options[:client_id],
             handler_options
           )
         )
