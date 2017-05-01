@@ -18,7 +18,7 @@ RSpec.describe TrackyDacks::Handlers::Pageview do
         "campaign_medium" => "republish",
         "campaign_content" => "Beyond Growth: adding wellbeing to the balance sheet",
         "referrer" => "http://www.mamamia.com.au/technique-to-make-baby-wee/",
-        "campaign_source" => "www.mamamia.com.au"
+        "campaign_source" => "a content source"
       }
     }
 
@@ -32,7 +32,7 @@ RSpec.describe TrackyDacks::Handlers::Pageview do
           document_path: "/articles/beyond-growth-adding-wellbeing-to-the-balance-sheet",
           referrer: "http://www.mamamia.com.au/technique-to-make-baby-wee/",
           campaign_name: "Pursuit republishing",
-          campaign_source: "mamamia.com.au",
+          campaign_source: "a content source",
           campaign_medium: "republish",
           campaign_keyword: nil,
           campaign_content: "Beyond Growth: adding wellbeing to the balance sheet",
@@ -55,7 +55,7 @@ RSpec.describe TrackyDacks::Handlers::Pageview do
           document_path: "/articles/beyond-growth-adding-wellbeing-to-the-balance-sheet",
           referrer: "http://www.mamamia.com.au/technique-to-make-baby-wee/",
           campaign_name: "Pursuit republishing",
-          campaign_source: "mamamia.com.au",
+          campaign_source: "http://www.mamamia.com.au/technique-to-make-baby-wee/",
           campaign_medium: "republish",
           campaign_keyword: nil,
           campaign_content: "Beyond Growth: adding wellbeing to the balance sheet",
