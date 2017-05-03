@@ -4,6 +4,8 @@ require "tracky_dacks/handlers/pageview"
 require "tracky_dacks/handlers/social"
 require "tracky_dacks/job"
 
+require "staccato"
+
 module TrackyDacks
   module Plugin
     IMAGE_PATH = File.join(__dir__, "..", "..", "public", "image.png").freeze
@@ -24,7 +26,13 @@ module TrackyDacks
       plugin_opts[:runner] = runner
 
       plugin_opts[:handlers] = handlers.each_with_object({}) { |(key, handler_class), result|
-        result[key] = handler_class.new(handler_options)
+        result[key] = handler_class.new(
+          Staccato.tracker(
+            handler_options[:tracking_id],
+            handler_options[:client_id],
+            handler_options
+          )
+        )
       }
     end
 

@@ -2,7 +2,6 @@ require "spec_helper"
 require "roda"
 
 RSpec.describe "TrackyDacks" do
-  let(:runner) { spy("runner") }
 
   let(:app) {
     Class.new(Roda) do
@@ -21,11 +20,26 @@ RSpec.describe "TrackyDacks" do
     app.opts[:tracky_dacks][:runner] = runner
   end
 
-  it "tracks requests passed to a Roda app" do
-    env = {"REQUEST_METHOD" => "GET", "PATH_INFO" => "/social", "SCRIPT_NAME" => "", "rack.input" => StringIO.new}
-    response = rack_app.(env)
+  context "with a spy job" do
+    let(:runner) { spy("runner") }
 
-    expect(response.first).to eq 302
-    expect(runner).to have_received(:call)
+    it "tracks requests passed to a Roda app" do
+      env = {"REQUEST_METHOD" => "GET", "PATH_INFO" => "/social", "SCRIPT_NAME" => "", "rack.input" => StringIO.new}
+      response = rack_app.(env)
+
+      expect(response.first).to eq 302
+      expect(runner).to have_received(:call)
+    end
+  end
+
+  context "with a TrackyDacks::Job" do
+    let(:runner) { TrackyDacks::Job.method(:perform_async) }
+
+    it "creates a background job" do
+      expect {
+        env = {"REQUEST_METHOD" => "GET", "PATH_INFO" => "/social", "SCRIPT_NAME" => "", "rack.input" => StringIO.new}
+        rack_app.(env)
+      }.to change { SuckerPunch::Queue.all.map(&:enqueued_jobs).count }.by(1)
+    end
   end
 end
